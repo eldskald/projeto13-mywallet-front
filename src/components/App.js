@@ -11,7 +11,7 @@ function App() {
     const [someOtherValue, setSomeOtherValue] = useState('otherInitialValue');
 
     return (
-        <UserContext.Provider values={{
+        <UserContext.Provider value={{
             someValue, someOtherValue
         }}>
             <BrowserRouter>
