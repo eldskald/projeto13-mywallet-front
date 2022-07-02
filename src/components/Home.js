@@ -14,7 +14,7 @@ import { BACKEND_URL } from '../shared/backendUrl';
 function Home () {
 
     const navigate = useNavigate();
-    const { setToken } = useContext(UserContext);
+    const { setToken, setUsername } = useContext(UserContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -29,8 +29,9 @@ function Home () {
         const body = {email, password};
         axios.post(`${BACKEND_URL}/sign-in`, body)
             .then(res => {
-                console.log(res.data);
                 setToken(res.data);
+                setUsername(res.data);
+                navigate('/painel');
             })
             .catch(err => {
                 setError(err.response.data);
