@@ -29,8 +29,8 @@ function Home () {
         const body = {email, password};
         axios.post(`${BACKEND_URL}/sign-in`, body)
             .then(res => {
-                setToken(res.data);
-                setUsername(res.data);
+                setToken(res.data.token);
+                setUsername(res.data.username);
                 navigate('/painel');
             })
             .catch(err => {
