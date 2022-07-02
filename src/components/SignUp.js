@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import TextInput from '../shared/TextInput';
 import DefaultButton from '../shared/DefaultButton';
+import LinkButton from '../shared/LinkButton';
 import ErrorMessage from '../shared/ErrorMessage';
 
 import { BACKEND_URL } from '../shared/backendUrl';
@@ -79,6 +80,8 @@ function SignUp () {
 const Container = styled.div`
     width: 100%;
     height: 100%;
+
+    padding: 0px 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -93,16 +96,9 @@ const Logo = styled.div`
     color: var(--brightcolor);
 `;
 
-const LinkButton = styled.div`
-    margin: 32px 0px;
-    cursor: pointer;
-    font-family: var(--scriptfont);
-    font-size: 20px;
-    color: var(--brightcolor);
-    text-decoration: underline;
-`;
-
 const Form = styled.form`
+    width: 100%;
+    
     display: flex;
     flex-direction: column;
     align-items: center;

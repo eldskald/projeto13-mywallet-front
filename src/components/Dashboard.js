@@ -11,7 +11,7 @@ import { BACKEND_URL } from '../shared/backendUrl';
 function Dashboard () {
 
     const navigate = useNavigate();
-    const { token, setToken, username, setUsername } = useContext(UserContext);
+    const { token, username } = useContext(UserContext);
 
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState('loading');
@@ -38,17 +38,11 @@ function Dashboard () {
             });
     }, []);
 
-    function logout () {
-        setToken('');
-        setUsername('');
-        navigate('/');
-    }
-
     return (
         <Container>
             <Header>
                 <div>{`Olá, ${username}`}</div>
-                <ion-icon name='exit-outline' onClick={logout}></ion-icon>
+                <ion-icon name='exit-outline' onClick={() => navigate('/')}></ion-icon>
             </Header>
             <MovementsContainer>
                 {loading ? (
@@ -56,15 +50,31 @@ function Dashboard () {
                         <TailSpin width='200' height='200' color='var(--maincolor)' />
                     </CenterContainer>
                 ) : (
-                    list.length > 0 ? (
-                        'nada por enquanto'
-                    ) : (
+                    error ? (
                         <CenterContainer>
-                            <p>Não há registros de<br/>entrada ou saída</p>
+                            <p>{error}</p>
                         </CenterContainer>
+                    ) : (
+                        list.length === 0 ? (
+                            <CenterContainer>
+                                <p>Não há registros de<br/>entrada ou saída</p>
+                            </CenterContainer>
+                        ) : (
+                            'nada por enquanto'
+                        )
                     )
                 )}
             </MovementsContainer>
+            <ButtonsContainer>
+                <NewMovementButton onClick={() => navigate('/nova-entrada')}>
+                    <ion-icon name='add-circle-outline'></ion-icon>
+                    <p>Nova<br/>entrada</p>
+                </NewMovementButton>
+                <NewMovementButton onClick={() => navigate('/nova-saida')}>
+                    <ion-icon name='remove-circle-outline'></ion-icon>
+                    <p>Nova<br/>saída</p>
+                </NewMovementButton>
+            </ButtonsContainer>
         </Container>
     );
 }
@@ -128,6 +138,43 @@ const CenterContainer = styled.div`
         font-size: 24px;
         color: var(--graycolor);
         text-align: center;
+    }
+`;
+
+const ButtonsContainer = styled.div`
+    width: 100%;
+    height: 140px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const NewMovementButton = styled.button`
+    width: 45%;
+    height: 128px;
+
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-color: var(--maincolor);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+
+    p {
+        font-family: var(--scriptfont);
+        font-size: 20px;
+        color: var(--brightcolor);
+        width: fit-content;
+        text-align: left;
+    }
+
+    ion-icon {
+        color: var(--brightcolor);
+        font-size: 32px;
     }
 `;
 
