@@ -6,6 +6,8 @@ import { TailSpin } from 'react-loader-spinner';
 
 import UserContext from '../shared/UserContext';
 
+import MovementsList from './MovementsList';
+
 import { BACKEND_URL } from '../shared/backendUrl';
 
 function Dashboard () {
@@ -60,7 +62,7 @@ function Dashboard () {
                                 <p>Não há registros de<br/>entrada ou saída</p>
                             </CenterContainer>
                         ) : (
-                            'nada por enquanto'
+                            <MovementsList list={list} />
                         )
                     )
                 )}
@@ -118,6 +120,7 @@ const MovementsContainer = styled.div`
     width: 100%;
     margin: 32px 0px;
 
+    padding: 16px;
     display: flex;
     flex-direction: column;
 
