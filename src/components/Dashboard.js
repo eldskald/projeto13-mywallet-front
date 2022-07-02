@@ -16,7 +16,7 @@ function Dashboard () {
     const { token, username } = useContext(UserContext);
 
     const [list, setList] = useState([]);
-    const [loading, setLoading] = useState('loading');
+    const [loading, setLoading] = useState('');
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -24,6 +24,11 @@ function Dashboard () {
             navigate('/');
         }
         
+        loadMovements();
+    }, []);
+
+    function loadMovements () {
+        setLoading('loading');
         axios.get(`${BACKEND_URL}/movements`,
             {
                 headers: {
@@ -38,7 +43,7 @@ function Dashboard () {
                 setError(err.response.data);
                 setLoading('');
             });
-    }, []);
+    }
 
     return (
         <Container>
@@ -62,7 +67,7 @@ function Dashboard () {
                                 <p>Não há registros de<br/>entrada ou saída</p>
                             </CenterContainer>
                         ) : (
-                            <MovementsList list={list} />
+                            <MovementsList list={list} reload={loadMovements} />
                         )
                     )
                 )}
@@ -99,14 +104,14 @@ const Header = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    div {
+    > div {
         font-family: var(--scriptfont);
         font-weight: 500;
         font-size: 32px;
         color: var(--brightcolor);
     }
 
-    ion-icon {
+    > ion-icon {
         margin-top: 8px;
         color: var(--brightcolor);
         font-size: 32px;
@@ -136,7 +141,7 @@ const CenterContainer = styled.div`
     align-items: center;
     justify-content: center;
 
-    p {
+    > p {
         font-family: var(--scriptfont);
         font-size: 24px;
         color: var(--graycolor);
@@ -167,7 +172,7 @@ const NewMovementButton = styled.button`
     border-radius: 8px;
     cursor: pointer;
 
-    p {
+    > p {
         font-family: var(--scriptfont);
         font-size: 20px;
         color: var(--brightcolor);
@@ -175,7 +180,7 @@ const NewMovementButton = styled.button`
         text-align: left;
     }
 
-    ion-icon {
+    > ion-icon {
         color: var(--brightcolor);
         font-size: 32px;
     }

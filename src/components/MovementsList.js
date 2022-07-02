@@ -1,62 +1,85 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function MovementsList ({ list }) {
+import DeleteMovement from './DeleteMovement';
 
-    const [balance, setBalance] = useState('');
+function MovementsList ({ list, reload }) {
 
-    function calculateBalance () {
-        let sum = 0;
-        list.forEach(movement => {
-            if (movement.type === 'entrance') {
-                sum += Number(movement.amount);
-            } else {
-                sum -= Number(movement.amount);
-            }
-        })
-        setBalance(sum);
+    const [deletingObject, setDeletingObject] = useState({});
+
+    function handleDelete (key) {
+        setDeletingObject(list[key]);
+    }
+
+    function removePopupWindow () {
+        setDeletingObject({});
     }
 
     function ListDisplay () {
         return (
-            <ListContainer>
-                {list.map(movement => (
-                    <Movement>
-                        <TimeAndNameDisplay>
-                            <TimeDisplay>
-                                {movement.time.slice(0, 5)}
-                            </TimeDisplay>
-                            <NameDisplay>
-                                {movement.description}
-                            </NameDisplay>
-                        </TimeAndNameDisplay>
-                        {movement.type === 'entrance' ? (
-                            <PositiveDisplay>
-                                {Number(movement.amount).toFixed(2)}
-                            </PositiveDisplay>
-                        ) : (
-                            <NegativeDisplay>
-                                {Number(movement.amount).toFixed(2)}
-                            </NegativeDisplay>
-                        )}
-                    </Movement>
-                ))}
-            </ListContainer>
+            <>
+                <ListContainer>
+                    {list.map((movement, index) => (
+                        <Movement key={index}>
+                            <TimeAndNameDisplay>
+                                <TimeDisplay>
+                                    {movement.time.slice(0, 5)}
+                                </TimeDisplay>
+                                <NameDisplay>
+                                    {movement.description}
+                                </NameDisplay>
+                            </TimeAndNameDisplay>
+                            <AmountAndDeleteDisplay>
+                                {movement.type === 'entrance' ? (
+                                    <PositiveDisplay>
+                                        {Number(movement.amount).toFixed(2)}
+                                    </PositiveDisplay>
+                                ) : (
+                                    <NegativeDisplay>
+                                        {Number(movement.amount).toFixed(2)}
+                                    </NegativeDisplay>
+                                )}
+                                <ion-icon name='trash-outline' onClick={() => handleDelete(index)}></ion-icon>
+                            </AmountAndDeleteDisplay>
+                            
+                        </Movement>
+                    ))}
+                </ListContainer>
+                {Object.keys(deletingObject).length > 0 ? (
+                    <DeleteMovement
+                        id={deletingObject._id}
+                        description={deletingObject.description}
+                        amount={deletingObject.amount}
+                        type={deletingObject.type}
+                        removePopup={() => setDeletingObject({})}
+                        reloadList={reload}
+                    />
+                ) : (
+                    <></>
+                )}
+            </>     
         );
     }
 
     function BalanceDisplay () {
-        calculateBalance();
+        let balance = 0;
+        list.forEach(movement => {
+            if (movement.type === 'entrance') {
+                balance += Number(movement.amount);
+            } else {
+                balance -= Number(movement.amount);
+            }
+        })
         return (
             <BalanceContainer>
                 <h1>SALDO</h1>
                 {balance >= 0 ? (
                     <PositiveDisplay>
-                        {Number(balance).toFixed(2)}
+                        {balance.toFixed(2)}
                     </PositiveDisplay>
                 ) : (
                     <NegativeDisplay>
-                        {Number(balance).toFixed(2)}
+                        {balance.toFixed(2)}
                     </NegativeDisplay>
                 )}
             </BalanceContainer>
@@ -75,7 +98,6 @@ const ListContainer = styled.div`
     width: 100%;
     flex-grow: 1;
 
-    padding: 16px;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
@@ -88,17 +110,17 @@ const BalanceContainer = styled.div`
     display: flex;
     justify-content: space-between;
 
-    h1 {
+    > h1 {
         font-family: var(--scriptfont);
         color: var(--darkcolor);
         font-weight: 500;
-        font-size: 24px;
+        font-size: 20px;
     }
 `;
 
 const Movement = styled.div`
     width: 100%;
-    height: 32px;
+    height: 36px;
 
     display: flex;
     justify-content: space-between;
@@ -121,6 +143,18 @@ const NameDisplay = styled.div`
     font-family: var(--scriptfont);
     color: var(--darkcolor);
     font-size: 18px;
+`;
+
+const AmountAndDeleteDisplay = styled.div`
+    display: flex;
+    align-items: center;
+
+    > ion-icon {
+        margin-left: 8px;
+        font-size: 24px;
+        color: var(--darkcolor);
+        cursor: pointer;
+    }
 `;
 
 const PositiveDisplay = styled.div`
