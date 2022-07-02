@@ -1,9 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-
-import UserContext from '../shared/UserContext';
 
 import TextInput from '../shared/TextInput';
 import DefaultButton from '../shared/DefaultButton';
@@ -11,13 +9,14 @@ import ErrorMessage from '../shared/ErrorMessage';
 
 import { BACKEND_URL } from '../shared/backendUrl';
 
-function Home () {
+function SignUp () {
 
     const navigate = useNavigate();
-    const { setToken } = useContext(UserContext);
 
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
 
     const [submitting, setSubmitting] = useState('');
     const [error, setError] = useState('');
@@ -26,12 +25,9 @@ function Home () {
         event.preventDefault();
 
         setSubmitting('loading');
-        const body = {email, password};
-        axios.post(`${BACKEND_URL}/sign-in`, body)
-            .then(res => {
-                console.log(res.data);
-                setToken(res.data);
-            })
+        const body = {name, email, password, passwordConfirm};
+        axios.post(`${BACKEND_URL}/sign-up`, body)
+            .then(() => {navigate('/')})
             .catch(err => {
                 setError(err.response.data);
                 setSubmitting('');
@@ -42,6 +38,13 @@ function Home () {
         <Container>
             <Logo>MyWallet</Logo>
             <Form onSubmit={handleSubmit}>
+                <TextInput
+                    type='text'
+                    placeholder='nome'
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    disabled={submitting}
+                />
                 <TextInput
                     type='email'
                     placeholder='email'
@@ -56,11 +59,18 @@ function Home () {
                     onChange={e => setPassword(e.target.value)}
                     disabled={submitting}
                 />
-                <DefaultButton text='Entrar' loading={submitting} type='submit' />
+                <TextInput
+                    type='password'
+                    placeholder='confirme sua senha'
+                    value={passwordConfirm}
+                    onChange={e => setPasswordConfirm(e.target.value)}
+                    disabled={submitting}
+                />
+                <DefaultButton text='Cadastrar' loading={submitting} type='submit' />
             </Form>
             <ErrorMessage error={error} />
-            <LinkButton onClick={() => navigate('/cadastro')}>
-                Primeira vez? Cadastre-se!
+            <LinkButton onClick={() => navigate('/')}>
+                Já tem uma conta? Entre agora!
             </LinkButton>
         </Container>
     );
@@ -98,4 +108,4 @@ const Form = styled.form`
     align-items: center;
 `;
 
-export default Home;
+export default SignUp;

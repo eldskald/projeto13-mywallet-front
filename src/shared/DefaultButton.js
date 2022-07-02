@@ -14,7 +14,7 @@ function DefaultButton ({ text, loading }) {
     )
 }
 
-const DefaultButtonStyle = styled.div`
+const DefaultButtonStyle = styled.button`
     width: 320px;
     height: 42px;
     margin: 8px 0px;

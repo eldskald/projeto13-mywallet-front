@@ -10,12 +10,17 @@ const TextInput = styled.input`
     border: 1px solid transparent;
     border-radius: 8px;
     outline: none;
-    opacity: ${props => props.loading ? 0.4 : 1};
+    background-color: var(--brightcolor);
 
     font-size: 20px;
+    color: var(--darkcolor);
 
     :placeholder {
         color: var(--graycolor);
+    }
+
+    :disabled {
+        background-color: var(--graycolor);
     }
 `;
 
