@@ -125,7 +125,10 @@ const ListContainer = styled.div`
 `;
 
 const BalanceContainer = styled.div`
-    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
     height: 32px;
 
     display: flex;
@@ -141,7 +144,7 @@ const BalanceContainer = styled.div`
 
 const Movement = styled.div`
     width: 100%;
-    height: 36px;
+    min-height: 36px;
 
     display: flex;
     justify-content: space-between;
