@@ -19,56 +19,32 @@ function MovementsList ({ list, reload }) {
 
     function ListDisplay () {
         return (
-            <>
-                <ListContainer>
-                    {list.map((movement, index) => (
-                        <Movement key={index}>
-                            <TimeAndNameDisplay>
-                                <TimeDisplay>
-                                    {movement.time.slice(0, 5)}
-                                </TimeDisplay>
-                                <NameDisplay onClick={() => handleUpdate(index)}>
-                                    {movement.description}
-                                </NameDisplay>
-                            </TimeAndNameDisplay>
-                            <AmountAndDeleteDisplay>
-                                {movement.type === 'entrance' ? (
-                                    <PositiveDisplay>
-                                        {movement.amount}
-                                    </PositiveDisplay>
-                                ) : (
-                                    <NegativeDisplay>
-                                        {movement.amount}
-                                    </NegativeDisplay>
-                                )}
-                                <ion-icon name='trash-outline' onClick={() => handleDelete(index)}></ion-icon>
-                            </AmountAndDeleteDisplay>
-                            
-                        </Movement>
-                    ))}
-                </ListContainer>
-                {Object.keys(deletingObject).length > 0 ? (
-                    <DeleteMovement
-                        id={deletingObject._id}
-                        description={deletingObject.description}
-                        amount={deletingObject.amount}
-                        type={deletingObject.type}
-                        removePopup={() => setDeletingObject({})}
-                        reloadList={reload}
-                    />
-                ) : Object.keys(updatingObject).length > 0 ? (
-                    <UpdateMovement
-                        id={updatingObject._id}
-                        oldDesc={updatingObject.description}
-                        oldAmount={updatingObject.amount}
-                        oldType={updatingObject.type}
-                        removePopup={() => setUpdatingObject({})}
-                        reloadList={reload}
-                    />
-                ) : (
-                    <></>
-                )}
-            </>     
+            <ListContainer>
+                {list.map((movement, index) => (
+                    <Movement key={index}>
+                        <TimeAndNameDisplay>
+                            <TimeDisplay>
+                                {movement.time.slice(0, 5)}
+                            </TimeDisplay>
+                            <NameDisplay onClick={() => handleUpdate(index)}>
+                                {movement.description}
+                            </NameDisplay>
+                        </TimeAndNameDisplay>
+                        <AmountAndDeleteDisplay>
+                            {movement.type === 'entrance' ? (
+                                <PositiveDisplay>
+                                    {Number(movement.amount).toFixed(2)}
+                                </PositiveDisplay>
+                            ) : (
+                                <NegativeDisplay>
+                                    {Number(movement.amount).toFixed(2)}
+                                </NegativeDisplay>
+                            )}
+                            <ion-icon name='trash-outline' onClick={() => handleDelete(index)}></ion-icon>
+                        </AmountAndDeleteDisplay>
+                    </Movement>
+                ))}
+            </ListContainer>  
         );
     }
 
@@ -101,6 +77,26 @@ function MovementsList ({ list, reload }) {
         <>
             <ListDisplay />
             <BalanceDisplay />
+            {Object.keys(updatingObject).length >= 0 ? (
+                <UpdateMovement
+                    id={updatingObject._id}
+                    oldDesc={updatingObject.description}
+                    oldAmount={updatingObject.amount}
+                    oldType={updatingObject.type}
+                    removePopup={() => setUpdatingObject({})}
+                    reloadList={reload}
+                />
+            ) : (<></>)}
+            {Object.keys(deletingObject).length >= 0 ? (
+                <DeleteMovement
+                    id={deletingObject._id}
+                    description={deletingObject.description}
+                    amount={deletingObject.amount}
+                    type={deletingObject.type}
+                    removePopup={() => setDeletingObject({})}
+                    reloadList={reload}
+                />
+            ) : (<></>)}
         </>
     );
 }
