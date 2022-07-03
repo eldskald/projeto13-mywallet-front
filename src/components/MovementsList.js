@@ -75,8 +75,10 @@ function MovementsList ({ list, reload }) {
 
     return (
         <>
-            <ListDisplay />
-            <BalanceDisplay />
+            <Container>
+                <ListDisplay />
+                <BalanceDisplay />
+            </Container>
             {Object.keys(updatingObject).length > 0 ? (
                 <UpdateMovement
                     id={updatingObject._id}
@@ -101,9 +103,21 @@ function MovementsList ({ list, reload }) {
     );
 }
 
-const ListContainer = styled.div`
+const Container = styled.div`
+    position: relative;
     width: 100%;
     flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+`;
+
+const ListContainer = styled.div`
+    position: absolute;
+    top: 0px;
+    bottom: 32px;
+    left: 0px;
+    right: 0px;
 
     display: flex;
     flex-direction: column;
