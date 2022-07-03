@@ -2,17 +2,19 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import DeleteMovement from './DeleteMovement';
+import UpdateMovement from './UpdateMovement';
 
 function MovementsList ({ list, reload }) {
 
+    const [updatingObject, setUpdatingObject] = useState({});
     const [deletingObject, setDeletingObject] = useState({});
+
+    function handleUpdate (key) {
+        setUpdatingObject(list[key]);
+    }
 
     function handleDelete (key) {
         setDeletingObject(list[key]);
-    }
-
-    function removePopupWindow () {
-        setDeletingObject({});
     }
 
     function ListDisplay () {
@@ -25,7 +27,7 @@ function MovementsList ({ list, reload }) {
                                 <TimeDisplay>
                                     {movement.time.slice(0, 5)}
                                 </TimeDisplay>
-                                <NameDisplay>
+                                <NameDisplay onClick={() => handleUpdate(index)}>
                                     {movement.description}
                                 </NameDisplay>
                             </TimeAndNameDisplay>
@@ -52,6 +54,15 @@ function MovementsList ({ list, reload }) {
                         amount={deletingObject.amount}
                         type={deletingObject.type}
                         removePopup={() => setDeletingObject({})}
+                        reloadList={reload}
+                    />
+                ) : Object.keys(updatingObject).length > 0 ? (
+                    <UpdateMovement
+                        id={updatingObject._id}
+                        oldDesc={updatingObject.description}
+                        oldAmount={updatingObject.amount}
+                        oldType={updatingObject.type}
+                        removePopup={() => setUpdatingObject({})}
                         reloadList={reload}
                     />
                 ) : (
@@ -143,6 +154,7 @@ const NameDisplay = styled.div`
     font-family: var(--scriptfont);
     color: var(--darkcolor);
     font-size: 18px;
+    cursor: pointer;
 `;
 
 const AmountAndDeleteDisplay = styled.div`

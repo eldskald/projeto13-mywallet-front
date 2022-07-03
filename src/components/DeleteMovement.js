@@ -30,7 +30,6 @@ function DeleteMovement (
                 removePopup();
             })
             .catch(err => {
-                console.log(err);
                 setError('error');
                 setLoading('');
             });
@@ -139,7 +138,7 @@ const ButtonsContainer = styled.div`
 const CancelButton = styled.div`
     font-family: var(--scriptfont);
     color: var(--brightcolor);
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
 `;
 
@@ -148,7 +147,7 @@ const DeleteButton = styled.div`
     color: var(--brightcolor);
     text-decoration: underline;
     font-weight: 600;
-    font-size: 32px;
+    font-size: 24px;
     cursor: pointer;
 `;
 
