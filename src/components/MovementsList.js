@@ -77,7 +77,7 @@ function MovementsList ({ list, reload }) {
         <>
             <ListDisplay />
             <BalanceDisplay />
-            {Object.keys(updatingObject).length >= 0 ? (
+            {Object.keys(updatingObject).length > 0 ? (
                 <UpdateMovement
                     id={updatingObject._id}
                     oldDesc={updatingObject.description}
@@ -87,7 +87,7 @@ function MovementsList ({ list, reload }) {
                     reloadList={reload}
                 />
             ) : (<></>)}
-            {Object.keys(deletingObject).length >= 0 ? (
+            {Object.keys(deletingObject).length > 0 ? (
                 <DeleteMovement
                     id={deletingObject._id}
                     description={deletingObject.description}
