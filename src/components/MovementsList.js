@@ -129,10 +129,11 @@ const BalanceContainer = styled.div`
     bottom: 0px;
     left: 0px;
     right: 0px;
-    height: 32px;
+    height: 36px;
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     > h1 {
         font-family: var(--scriptfont);
