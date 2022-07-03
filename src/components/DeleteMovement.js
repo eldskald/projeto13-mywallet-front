@@ -119,7 +119,7 @@ const MovementDisplay = styled.div`
 
     > div {
         font-family: var(--scriptfont);
-        color: ${props => props.type == 'entrance' ? 'var(--poscolor)' : 'var(--negcolor)'};
+        color: ${props => props.type === 'entrance' ? 'var(--poscolor)' : 'var(--negcolor)'};
         font-size: 24px;
         font-weight: 500;
     }

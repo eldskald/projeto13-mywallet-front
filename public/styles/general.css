@@ -1,13 +1,13 @@
 :root {
     --displayfont: 'Saira Stencil One', cursive;
     --scriptfont: 'Ubuntu', sans-serif;
-    --maincolor: #a328d6;
+    --maincolor: #7d15aa;
     --brightcolor: #fefefe;
     --graycolor: #888888;
     --darkcolor: #080808;
-    --bgcolor: #560a74;
+    --bgcolor: #360c47;
     --poscolor: #03ac00;
-    --negcolor: #c70c0c;
+    --negcolor: #e73737;
 }
 
 * {
