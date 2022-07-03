@@ -34,11 +34,11 @@ function MovementsList ({ list, reload }) {
                             <AmountAndDeleteDisplay>
                                 {movement.type === 'entrance' ? (
                                     <PositiveDisplay>
-                                        {Number(movement.amount).toFixed(2)}
+                                        {movement.amount}
                                     </PositiveDisplay>
                                 ) : (
                                     <NegativeDisplay>
-                                        {Number(movement.amount).toFixed(2)}
+                                        {movement.amount}
                                     </NegativeDisplay>
                                 )}
                                 <ion-icon name='trash-outline' onClick={() => handleDelete(index)}></ion-icon>
